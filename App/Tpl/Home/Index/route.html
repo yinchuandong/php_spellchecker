@@ -1,0 +1,39 @@
+<include file="Public:header" />
+
+<div class="wrapper">
+    <div id="j-container" class="my-container">
+        <div id="j-main" class="main clearfix">
+
+            <div class="timeline">
+                <div id="items">
+
+                </div>
+            </div>
+        </div>
+        <div class="side clearfix">
+            <div id="j-cont-allmap" class="container-allmap">
+
+                    <div id="processguide" class="process_title">
+                    </div>
+                <div id="j-allmap" class="allmap"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg"></div>
+</div>
+
+
+
+<script type="text/javascript" src="__JS__/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="__JS__/util.js"></script>
+<script type="text/javascript" src="__JS__/map.js"></script>
+<script type="text/javascript" src="__JS__/route.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    var url = 'routes/{$routeFile}';
+    var plan = '{$plan}';
+    Route.init(url, $("#processguide"), $("#items"), plan);
+});
+</script>
+<include file="Public:footer" />
