@@ -6,19 +6,18 @@ class IndexAction extends Action {
     }
     
 	public function correct(){
-
+        $article = $this->_post('article');
         $form = array(
-            'article' => 'he am a boys,I has a apples. you is a boy.'
+            'article' => $article
         );
 
 		import('ORG.HttpUtil');
-		$url = "http://127.0.0.1:8080/JSP_SpellChecker/index.jsp?articl=123";
-        // $url = "http://127.0.0.1/php_spellchecker/index.php/Index/test";
+		$url = "http://127.0.0.1:8080/JSP_SpellChecker/index.jsp";
 		$util = new HttpUtil();
         $ret = $util->post($url, $form);
-		// $resultJson = json_decode($ret, true);
-        // var_dump($resultJson);
-        var_dump($ret);
+        // var_dump($ret);
+        echo $ret;
+        exit;
     }
 
     public function test(){
