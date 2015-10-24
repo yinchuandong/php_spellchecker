@@ -21,8 +21,44 @@ class IndexAction extends Action {
     }
 
     public function test(){
-        var_dump($_POST);
-        var_dump('fuck');
+        $str = decode('j32hoUUadViY6i+SQPYp/y58JIQ73XBIM9w1axlqDr8832CGjo5ED4CDP3G7HNqkRg==','123456');
+        var_dump($str);
+        echo getTime().'-';
+        echo time();
+    }
+    
+     public function register(){
+        $token = $_POST['token'];
+        $postTime = $_POST['time'];
+        $password = $_POST['password'];
+        if($password != '729114139'){
+            $ret = array('info'=>'password fail', 'status'=>0);
+            $this->ajaxReturn($ret);
+        }
+        $decodeStr = decode($token, C('APP_KEY'));
+        list($secret, $mac, $clientTime) = explode('-', $decodeStr);
+        $valid = $clientTime == $postTime ? 1 : 0;
+        if($valid == 0){
+            $ret = array('info'=>'no right', 'status'=>0);
+            $this->ajaxReturn($ret);
+        }
+        $model = new TabletModel();
+        $data = array(
+            'mac' => $mac,
+            'time' => getTime()
+        );
+        if($model->data($data)->add()){
+            $ret = array('info'=>'success', 'status'=>1);
+            $this->ajaxReturn($ret);
+        }else{
+            $ret = array('info'=>'add fail', 'status'=>0);
+            $this->ajaxReturn($ret);
+        }
+
+        // $ret = array(
+        //     $secret, $mac, $clientTime, $postTime, $valid
+        // );
+        // $this->ajaxReturn($ret);
     }
     
  

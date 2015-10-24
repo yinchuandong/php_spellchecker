@@ -5,7 +5,7 @@ return array(
  	// 'APP_STATUS'			=> 'debug',
 	'DB_TYPE'               => 'mysql',     // 数据库类型
 	'DB_HOST'               => '127.0.0.1', // 服务器地址
-	'DB_NAME'               => 'traveldata',      // 数据库名
+	'DB_NAME'               => 'mytablet',      // 数据库名
 	'DB_USER'               => '123',      // 用户名
 	'DB_PWD'                => '123',          // 密码
 	'DB_PORT'               => '3306',        // 端口
@@ -15,6 +15,7 @@ return array(
     'TOKEN_ON'  => false,
     'URL_ROUTER_ON' => true,
     'SHOW_PAGE_TRACE'=>false,
+    'DEFAULT_TIMEZONE' => 'Asia/Shanghai',
 
 	'OUTPUT_ENCODE'=>false,	//导出excel表格时避免错误
 	
@@ -45,5 +46,7 @@ return array(
      * 模板的输出格式
      */
     'TMPL_CONTENT_TYPE'     => 'text/html',
+    'APP_KEY'=>'key_yin_2015',
+    'APP_SECRET' => 'secret_2015_yin',
 );
 ?>
