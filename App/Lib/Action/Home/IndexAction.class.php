@@ -6,6 +6,23 @@ class IndexAction extends Action {
     }
     
 	public function correct(){
+        $token = $_POST['token'];
+        $postTime = $_POST['time'];
+
+        $decodeStr = decode($token, C('APP_KEY'));
+        list($secret, $mac, $clientTime) = explode('-', $decodeStr);
+        $valid = $clientTime == $postTime ? 1 : 0;
+        if($valid == 0){
+            $ret = array('info'=>'no right', 'status'=>0);
+            $this->ajaxReturn($ret);
+        }
+
+        $model = new TabletModel();
+        if($model->where(array('mac' => $mac))->count() == 0){
+            $ret = array('info'=>'unregisted', 'status'=>0);
+            $this->ajaxReturn($ret);
+        }
+
         $article = $this->_post('article');
         $form = array(
             'article' => $article
@@ -35,6 +52,7 @@ class IndexAction extends Action {
             $ret = array('info'=>'password fail', 'status'=>0);
             $this->ajaxReturn($ret);
         }
+
         $decodeStr = decode($token, C('APP_KEY'));
         list($secret, $mac, $clientTime) = explode('-', $decodeStr);
         $valid = $clientTime == $postTime ? 1 : 0;
@@ -42,11 +60,14 @@ class IndexAction extends Action {
             $ret = array('info'=>'no right', 'status'=>0);
             $this->ajaxReturn($ret);
         }
+
         $model = new TabletModel();
-        $data = array(
-            'mac' => $mac,
-            'time' => getTime()
-        );
+        $_POST['mac'] = $mac; // for auto validate
+        $data = $model->create();
+        if($data == false){
+            $ret = array('info'=> $model->getError(), 'status'=>0);
+            $this->ajaxReturn($ret);
+        }
         if($model->data($data)->add()){
             $ret = array('info'=>'success', 'status'=>1);
             $this->ajaxReturn($ret);
@@ -54,13 +75,8 @@ class IndexAction extends Action {
             $ret = array('info'=>'add fail', 'status'=>0);
             $this->ajaxReturn($ret);
         }
-
-        // $ret = array(
-        //     $secret, $mac, $clientTime, $postTime, $valid
-        // );
-        // $this->ajaxReturn($ret);
     }
-    
+
  
     
 }
