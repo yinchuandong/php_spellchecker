@@ -68,6 +68,13 @@ class IndexAction extends Action {
             $ret = array('info'=> $model->getError(), 'status'=>0);
             $this->ajaxReturn($ret);
         }
+
+        //already register
+        if($model->where(array('mac' => $mac))->count() > 0){
+            $ret = array('info'=>'success', 'status'=>1);
+            $this->ajaxReturn($ret);
+        }
+
         if($model->data($data)->add()){
             $ret = array('info'=>'success', 'status'=>1);
             $this->ajaxReturn($ret);
